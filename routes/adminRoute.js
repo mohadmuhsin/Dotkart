@@ -30,8 +30,6 @@ const brandController = require('../controllers/brandController')
 const upload = require('../middleware/multer')
 
 
-
-const { json } = require('body-parser');
 const nocache = require('nocache');
 
 
