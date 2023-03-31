@@ -1,0 +1,204 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>orders</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active">orders</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+
+  <!-- Recent Sales -->
+  <div class="col-12">
+    <div class="card recent-sales overflow-auto">
+
+
+      <div class="card-body">
+        <h5 class="card-title">orders</h5>
+
+        <table class="table table-borderless datatable " id="reload" style="margin-left: 10px;">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">order id</th>
+              <!-- <th scope="col">price</th> -->
+              <th scope="col">order date</th>
+              <th scope="col">status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%  order.forEach((x,index)=>{%>
+
+            <tr>
+              <th class="row"><%= index+1 %></th>
+              <td><%= x.orderId %></td>
+              <!-- <td><%= x.total %></td> -->
+              <td><%= x.date.toLocaleString( { day: '2-digit', month: '2-digit', year: '2-digit'}) %></td>
+
+              <% if(x.status =='Delivered'){ %>
+                <td class="text-success">
+                  <%= x.status %>
+                </td>
+
+              <% }else if(x.status =='cancelled'||x.status =='Payment failed'){ %>
+              <td class="text-danger">
+                <%= x.status %>
+              </td>
+              <% } else if(x.status=='confirmed'){ %>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i>
+                      <%= x.status %>
+                    </i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'processing')">
+                      <i class="me-1"></i> process
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Shipped')">
+                      <i class="me-1"></i> Ship
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Delivered')">
+                      <i class="me-1"></i> Deliver
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <% } else if(x.status=='processing'){ %>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i>
+                      <%= x.status %>
+                    </i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Shipped')">
+                      <i class="me-1"></i> Ship
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Delivered')">
+                      <i class="me-1"></i> Deliver
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <% } else if(x.status=='Shipped'){ %>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i>
+                      <%= x.status %>
+                    </i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Delivered')">
+                      <i class="me-1"></i> Deliver
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <% } else if(x.status=='Return requested'){ %>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i>
+                      <%= x.status %>
+                    </i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Returned')">
+                      <i class="me-1"></i> Approve
+                    </a>
+                    <a class="dropdown-item" href="#" onclick="updateStatus('<%= x._id %>', 'Return Rejected')">
+                      <i class="me-1"></i> Reject
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <% } else if(x.status=='Returned'||x.status =='Return Rejected'){ %>
+              <td class="text-success">
+                <%= x.status %>
+              </td>
+              <% } %>
+
+              </th>
+
+
+
+
+
+              <td>
+
+                <a href="/admin/orderDetails/<%=x._id%>/<%=x.userId.name%>">
+                  <%= console.log(x._id) %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </a>
+
+                <!-- <button><a href="/admin/orderDetails/<%=x._id%>">view</a></button> -->
+
+
+              </td>
+            </tr>
+            <% });%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- End Recent Sales -->
+  <% if(typeof message!=="undefined"){%>
+  <h1 style="font-size:16px;color:rgb(73, 34, 227);"><%=message %></h1>
+  <%}%>
+  </main>
+
+
+
+<script>
+
+  function updateStatus(ordId,status){
+    $.ajax({
+      url:'/admin/updateStatus',
+      data:{
+        orderId:ordId,
+        newStatus:status
+      },
+      method:'post',
+      success: (response) => {
+  if (response.success) {
+
+    location.href='/admin/orders'
+    console.log(response);
+  }
+}
+
+    })
+  }
+</script>
+
+
+
+
+
+<script>
+  $(document).ready(function () {
+    $('#reload').DataTable();
+  });
+</script>
+
+  
+<%- include('../layouts/admin/footer.ejs') %>

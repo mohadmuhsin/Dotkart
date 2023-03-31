@@ -1,0 +1,77 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+<main id="main" class="main">
+
+  <div calass="pagetitle">
+    <h1>Edit Coupon</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/admin/addCategory">Edit Coupon</a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <br>
+          <!-- Vertical Form -->
+          <form class="row g-3" action="" method="post">
+
+            <style>
+              input::-webkit-outer-spin-button,
+              input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              } 
+            </style>
+            <div class="col-12">
+              <label for="inputNanme4" class="form-label">Code</label>
+              <input type="text" class="form-control" name="code" value="<%=coupon.code%>">
+            </div>
+            <div class="col-12">
+              <label for="fordescription" class="form-label">maxDiscount</label>
+              <input min="1" inputmode="numeric" type="number" class="form-control" name="maxDiscount" value="<%=coupon.maxDiscount%>">
+            </div>
+            <div class="col-12">
+              <label for="inputNanme4" class="form-label">Expiry date</label>
+              <input type="date" class="form-control" name="expiryDate" value="<%=coupon.expirydate.toISOString().slice(0,10)%>">
+            </div>
+
+            <div class="col-12">
+              <label for="inputNanme4" class="form-label">minPurchaseAmount</label>
+              <input min="1" inputmode="numeric" type="number" class="form-control" name="minAmount" value="<%=coupon.minPurchaseAmount%>">
+            </div>
+            <div class="col-12">
+              <label for="inputNanme4" class="form-label">Percentage</label>
+              <input min="1" inputmode="numeric" type="number" class="form-control" name="percentage"value="<%=coupon.percentage%>">
+            </div>
+          
+
+            <% if(typeof message !== 'undefined'){ %>
+            <p style="color: brown;"><%- message %> </p>
+            <% } %>
+            <div class="text-center">
+              <button type="submit" class="btn btn-success" style="float:right;   padding-inline: 50px;"> submit</button>
+            </div>
+          </form><!-- Vertical Form -->
+        </div>
+      </div>
+
+
+      <!-- Right side columns -->
+      <div class="col-lg-4">
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+<%- include('../layouts/admin/footer.ejs') %>
