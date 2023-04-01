@@ -19,6 +19,8 @@ const orderDetails = async (req, res) => {
         res.render('orderDetails',{order:orderdata})
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 

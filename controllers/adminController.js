@@ -235,7 +235,8 @@ const salesReport = async (req, res) => {
 
         if (req.body.from.trim() == '' || req.body.to.trim() == '') {
             res.render('sales', { message: 'All feilds are required' })
-        } else {
+        } 
+        else {
             const salesdata = await orderData.find({
                 status: 'Delivered',
                 date:

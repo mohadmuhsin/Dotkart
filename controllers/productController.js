@@ -93,6 +93,8 @@ const editProducts = async (req, res) => {
         res.render('editProduct', { productData: productdata, brand: branddata, categorydata: category })
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+        
     }
 }
 
@@ -181,6 +183,8 @@ const updateimage = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
@@ -195,6 +199,8 @@ const deleteImage = async (req, res) => {
         res.redirect('/admin/products/editProduct' + ProId)
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
@@ -240,6 +246,8 @@ const loadProdutdetail = async (req, res) => {
         res.render('viewProduct', { product: allProduct, category: categorydata, brand: branddata })
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 

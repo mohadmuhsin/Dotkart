@@ -4,6 +4,8 @@ const categoryData = require('../../models/categoryData')
 const { v4: uuidv4 } = require('uuid');
 const productData = require('../../models/productData');
 const couponData = require('../../models/couponData')
+const brandData = require('../../models/brandData')
+
 const crypto = require('crypto')
 require('dotenv').config();
 const Razorpay = require('razorpay');
@@ -24,10 +26,20 @@ const loadCheckout = async (req, res) => {
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id }).populate('cart.product')
+            const productdata = await productData.find({ status: true }).populate('category')
+            const branddata = await brandData.find({})
+
             const categorydata = await categoryData.find({})
             const coupon = await couponData.find({ $nor: [{ userUsed: user._id }] })
             console.log(coupon);
-            res.render('checkout', { user: userdata, category: categorydata, Coupon: coupon })
+            if (userdata.cart[0] == null) {
+                res.render('allProducts', { user: userdata, Product: productdata, brand: branddata, category: categorydata, Coupon: coupon })
+
+            } else {
+
+
+                res.render('checkout', { user: userdata, category: categorydata, Coupon: coupon })
+            }
         } else {
             res.redirect('/login')
         }
@@ -84,7 +96,8 @@ const loadOrderSuccess = async (req, res) => {
                 orderId: `order_Id_${uuidv4()}`,
                 status: status,
                 discount: req.body.discount1,
-                coupon: req.body.code
+                coupon: req.body.code,
+                date: Date.now()
 
 
             })
@@ -121,7 +134,9 @@ const loadOrderSuccess = async (req, res) => {
                 orderId: `order_Id_${uuidv4()}`,
                 status: "Payment failed",
                 discount: req.body.discount1,
-                coupon: req.body.code
+                coupon: req.body.code,
+                date: Date.now()
+
 
             })
             const productdata = await order.save()
@@ -163,7 +178,9 @@ const loadOrderSuccess = async (req, res) => {
                     orderId: `order_Id_${uuidv4()}`,
                     status: "processing",
                     discount: req.body.discount1,
-                    coupon: req.body.code
+                    coupon: req.body.code,
+                    date: Date.now()
+
 
                 })
                 const productdata = await order.save()
@@ -189,6 +206,7 @@ const loadOrderSuccess = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+
     }
 }
 
@@ -257,6 +275,8 @@ const ordersuccess = async (req, res) => {
         res.render('ordersuccess', { user: userdata, category: categorydata, order: orderdata })
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
@@ -349,6 +369,7 @@ const orderDetails = async (req, res) => {
         res.render('orderDetails', { category: categorydata, order: orderdata, user: userdata })
     } catch (error) {
         console.log(error.message);
+        res.render("errorPage", { errorMessage: "An error occurred." });
     }
 }
 

@@ -2,7 +2,50 @@
 <%- include ('../layouts/user/navbar.ejs') %>
 
 
+<% if(Product[0]==null){ %>
+  <style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f1f1f1;
+			text-align: center;
+			padding-top: 50px;
+		}
 
+		h1 {
+			font-size: 36px;
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 18px;
+			margin-bottom: 30px;
+		}
+
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 14px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 18px;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+<div class="bg0 p-t-203 p-b-140">
+  <div class="container">
+    <h1>No Matches Found</h1>
+    <p>Sorry, we couldn't find any matches for your search.</p>
+    <button onclick="location.href='/'">Return to Home</button>
+  </div>
+</div>
+
+
+
+<% }else{ %>
 
 
 <!-- Product -->
@@ -10,29 +53,29 @@
   <div class="container">
     <div class="flex-w flex-sb-m p-b-52">
       <div class="flex-w m-l-auto  m-t-60">
-      
-					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
-						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						 Filter
-					</div>
 
-					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						Search
-					</div>
+        <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+          <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+          <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+          Filter
+        </div>
+
+        <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+          <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+          <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+          Search
+        </div>
       </div>
 
       <!-- Search product -->
       <div class="dis-none panel-search w-full p-t-10 p-b-15">
         <div class="bor8 dis-flex p-l-15">
           <form class="search-form d-flex align-items-center" method="POST" action="/search">
-          <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-            <i class="zmdi zmdi-search"></i>
-          </button>
-          <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search" placeholder="Search">
-        </form>
+            <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+              <i class="zmdi zmdi-search"></i>
+            </button>
+            <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search" placeholder="Search">
+          </form>
         </div>
       </div>
 
@@ -45,10 +88,10 @@
             </div>
             <ul>
               <% brand.forEach((x)=>{ %>
-                <% if(x.status) {%>
+              <% if(x.status) {%>
               <li class="p-b-6">
                 <a href="/brands/<%=x._id %>" class="filter-link stext-106 trans-04">
-                 <%=x.brand%>
+                  <%=x.brand%>
                 </a>
               </li>
               <% } %>
@@ -103,7 +146,7 @@
 
           <div class="filter-col4 p-r-15 p-b-27">
             <div class="mtext-102 cl2 p-b-15">
-             Price
+              Price
             </div>
             <ul>
               <li class="p-b-6">
@@ -146,7 +189,7 @@
 
           <div class="block2-txt flex-w flex-t p-t-14">
             <div class="block2-txt-child1 flex-col-l ">
-              <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+              <a href="/productDetails/<%= x._id %>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                 <%=x.name%>
               </a>
 
@@ -180,7 +223,7 @@
 
     <!-- Load more -->
     <div class="flex-c-m flex-w w-full p-t-45">
-     
+
     </div>
   </div>
 </div>
@@ -189,7 +232,7 @@
 
 <div class="card-body">
   <% if(typeof productCount == "undefined"){%>
-    <%}else{%>
+  <%}else{%>
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       <!-- Page numbers -->
@@ -209,41 +252,42 @@
 </div>
 
 <!-- Modal1 -->
+<% } %>
 
 
-<!-- for wishlist////////////////// -->
-<script>
-  function addToWishlist(proId) {
-    $.ajax({
-      url: '/addToWishlist',
-      data: {
-        productId: proId
-      },
-      method: "post",
-      success: (response) => {
-        if (response.success) {
-          // $('.table-shopping-cart').load('/wishlist .table-shopping-cart')
+  <!-- for wishlist////////////////// -->
+  <script>
+    function addToWishlist(proId) {
+      $.ajax({
+        url: '/addToWishlist',
+        data: {
+          productId: proId
+        },
+        method: "post",
+        success: (response) => {
+          if (response.success) {
+            // $('.table-shopping-cart').load('/wishlist .table-shopping-cart')
+            console.log(response);
+            Swal.fire({
+              title: 'Added',
+              text: 'Item added to wishlist',
+              icon: 'success',
+              timer: 1000,
+              showConfirmButton: false
+            })
+          } else {
+            Swal.fire({
+              text: 'Item already in wishlist',
+              icon: 'info',
+              timer: 1000,
+              showConfirmButton: false
+            })
+          }
           console.log(response);
-          Swal.fire({
-            title: 'Added',
-            text: 'Item added to wishlist',
-            icon: 'success',
-            timer: 1000,
-            showConfirmButton: false
-          })
-        } else {
-          Swal.fire({
-            text: 'Item already in wishlist',
-            icon: 'info',
-            timer: 1000,
-            showConfirmButton: false
-          })
         }
-        console.log(response);
-      }
-    })
-  }
-</script>
+      })
+    }
+  </script>
 
 
-<%- include ('../layouts/user/footer.ejs') %>
+  <%- include ('../layouts/user/footer.ejs') %>

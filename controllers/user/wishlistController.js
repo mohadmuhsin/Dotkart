@@ -42,6 +42,7 @@ const addWishlist = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        
 
     }
 }
@@ -100,6 +101,7 @@ const addTocart = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.render("errorPage", { errorMessage: "An error occurred." });
     }
 }
 

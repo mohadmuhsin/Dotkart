@@ -33,9 +33,20 @@ const loadhomepage = async (req, res) => {
                 const session_id = req.session.user._id
                 const userdata = await userData.findOne({ _id: session_id })
                 // console.log(userdata);
-                res.render('home', { product: productdata, user: userdata, category: categorydata, banner: bannerdata, brand: branddata })
+                res.render('home', {
+                    product: productdata,
+                    user: userdata,
+                    category: categorydata,
+                    banner: bannerdata,
+                    brand: branddata
+                })
             } else {
-                res.render('home', { product: productdata, category: categorydata, banner: bannerdata, brand: branddata })
+                res.render('home', {
+                    product: productdata,
+                    category: categorydata,
+                    banner: bannerdata,
+                    brand: branddata
+                })
             }
         }
     } catch (error) {
@@ -181,14 +192,24 @@ const productDetails = async (req, res) => {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
 
-            res.render('viewProduct', { product: allProduct, user: userdata, category: categorydata, brand: branddata })
+            res.render('viewProduct', {
+                product: allProduct,
+                user: userdata,
+                category: categorydata,
+                brand: branddata
+            })
         }
         else {
-            res.render('viewProduct', { product: allProduct, category: categorydata, brand: branddata })
+            res.render('viewProduct', {
+                product: allProduct,
+                category: categorydata,
+                brand: branddata
+            })
         }
 
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
     }
 }
 
@@ -218,10 +239,21 @@ const allProducts = async (req, res) => {
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
-            res.render('allProducts', { Product: productdata, user: userdata, productCount: procount, category: categorydata, brand: branddata })
+            res.render('allProducts', {
+                Product: productdata,
+                user: userdata,
+                productCount: procount,
+                category: categorydata,
+                brand: branddata
+            })
         }
         else {
-            res.render('allProducts', { Product: productdata, productCount: procount, category: categorydata, brand: branddata })
+            res.render('allProducts', {
+                Product: productdata,
+                productCount: procount,
+                category: categorydata,
+                brand: branddata
+            })
         }
 
     } catch (error) {
@@ -252,13 +284,26 @@ const category = async (req, res) => {
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
-            res.render('categories', { Product: productdata, user: userdata, productCount: procount, category: categorydata, brand: branddata })
+            res.render('categories', {
+                Product: productdata,
+                user: userdata,
+                productCount: procount,
+                category: categorydata,
+                brand: branddata
+            })
         } else {
-            res.render('categories', { Product: productdata, category: categorydata, productCount: procount, brand: branddata })
+            res.render('categories', {
+                Product: productdata,
+                category: categorydata,
+                productCount: procount,
+                brand: branddata
+            })
 
         }
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
@@ -270,7 +315,11 @@ const loadProfile = async (req, res) => {
         const userdata = await userData.findOne({ _id: user._id })
         const productdata = await productData.find({ status: true }).populate('category')
         const categorydata = await categoryData.find({ status: true })
-        res.render('profile', { user: userdata, category: categorydata, product: productdata })
+        res.render('profile', {
+            user: userdata,
+            category: categorydata,
+            product: productdata
+        })
 
     } catch (error) {
         console.log(error.message);
@@ -283,7 +332,10 @@ const viewAddress = async (req, res) => {
         const user = req.session.user
         const categorydata = await categoryData.find({ status: true })
         const userdata = await userData.findOne({ _id: user._id })
-        res.render('viewAddress', { user: userdata, category: categorydata })
+        res.render('viewAddress', {
+            user: userdata,
+            category: categorydata
+        })
 
     } catch (error) {
         console.log(error.message);
@@ -297,7 +349,10 @@ const loadaddAddress = async (req, res) => {
         const categorydata = await categoryData.find({ status: true })
         const userdata = await userData.findOne({ _id: user._id })
 
-        res.render('addAddress', { user: userdata, category: categorydata })
+        res.render('addAddress', {
+            user: userdata,
+            category: categorydata
+        })
 
     } catch (error) {
         console.log(error.message);
@@ -392,7 +447,11 @@ const editProfile = async (req, res, next) => {
             const categorydata = await categoryData.find({ status: true })
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
-            res.render('profile', { message: "fields are empty", user: userdata, category: categorydata })
+            res.render('profile', {
+                message: "fields are empty",
+                user: userdata,
+                category: categorydata
+            })
         } else {
             if (req.session.user) {
 
@@ -424,7 +483,8 @@ const removeAddress = async (req, res, next) => {
         console.log(addId);
         const user = req.session.user
         console.log(user._id);
-        const data = await userData.updateOne({ _id: user._id }, { $pull: { address: { _id: addId } } })
+        const data = await userData.updateOne({ _id: user._id },
+            { $pull: { address: { _id: addId } } })
         if (data) {
             res.json({ success: true })
         }
@@ -464,9 +524,22 @@ const search = async (req, res) => {
 
         if (req.session.user) {
             const userdata = await userData.findOne({ _id: user._id })
-            res.render('allProducts', { user: userdata, Product: productdata, productCount: procount, category: categorydata, banner: bannerdata, brand: branddata })
+            res.render('allProducts', {
+                user: userdata,
+                Product: productdata,
+                productCount: procount,
+                category: categorydata,
+                banner: bannerdata,
+                brand: branddata
+            })
         } else {
-            res.render('allProducts', { Product: productdata, category: categorydata, productCount: procount, banner: bannerdata, brand: branddata })
+            res.render('allProducts', {
+                Product: productdata,
+                category: categorydata,
+                productCount: procount,
+                banner: bannerdata,
+                brand: branddata
+            })
         }
     } catch (error) {
         console.log(error.message);
@@ -554,8 +627,7 @@ const verifyfgOTP = async (req, res, next) => {
         const otp = req.body.otp
         const data = req.session.users
         const mobileNo = req.body.mobile
-        console.log(data);
-        console.log(data.mobile);
+
         const verifiedResponse = await client.verify.v2
             .services('VAf6a17393a6187b6baeaeadc038a9b04c')
             .verificationChecks.create({
@@ -594,8 +666,8 @@ const verifypassword = async (req, res, next) => {
             const hash = await bcrypt.hash(password, 10)
             const update = await userData.updateOne({ userName: data.Username }, { $set: { password: hash } })
             res.redirect('/')
-        }else{
-            res.render('password',{message:'password mismatch'})
+        } else {
+            res.render('password', { message: 'password mismatch' })
         }
     } catch (error) {
         next(error)
@@ -629,15 +701,28 @@ const brands = async (req, res, next) => {
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
-            res.render('brand', { user: userdata, brand: branddata, productCount: procount, category: categorydata, product: productdata })
+            res.render('brand', {
+                user: userdata,
+                brand: branddata,
+                productCount: procount,
+                category: categorydata,
+                product: productdata
+            })
         } else {
-            res.render('brand', { brand: branddata, productCount: procount, category: categorydata, product: productdata })
+            res.render('brand', {
+                brand: branddata,
+                productCount: procount,
+                category: categorydata,
+                product: productdata
+            })
 
         }
 
         console.log(productdata);
     } catch (error) {
         console.log(error.message);
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
@@ -645,19 +730,6 @@ const priceLow = async (req, res, next) => {
     try {
         const num = parseInt(req.query.value)
 
-        // let page = 1;
-        // if (req.query.page) {
-        //     page = req.query.page
-        // }
-        // const limit = 12
-        // // const id = req.params.id
-        // const productdata = await productData.find({ status: true }).sort({ price: num })
-        //     .limit(limit * 1)
-        //     .skip((page - 1) * limit)
-        //     .exec()
-        // const productcount = await productData.find({}).countDocuments()
-
-        // let procount = Math.ceil(productcount / limit)
         const branddata = await brandData.find({})
         const productdata = await productData.find({ status: true }).sort({ price: num })
         const categorydata = await categoryData.find({ status: true })
@@ -665,13 +737,24 @@ const priceLow = async (req, res, next) => {
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
-            res.render('allProducts', { Product: productdata, user: userdata, category: categorydata, brand: branddata })
+            res.render('allProducts', {
+                Product: productdata,
+                user: userdata,
+                category: categorydata,
+                brand: branddata
+            })
         } else {
-            res.render('allProducts', { Product: productdata, category: categorydata, brand: branddata })
+            res.render('allProducts', {
+                Product: productdata,
+                category: categorydata,
+                brand: branddata
+            })
         }
 
     } catch (error) {
         next(error)
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
@@ -690,29 +773,49 @@ const price = async (req, res, next) => {
             const userdata = await userData.findOne({ _id: user._id })
             if (typeof req.query.high === 'undefined') {
                 const productdata = await productData.find({ $and: [{ price: { $gte: low } }], status: true })
-                res.render('allProducts', { Product: productdata, user: userdata, category: categorydata, brand: branddata })
+                res.render('allProducts', {
+                    Product: productdata,
+                    user: userdata,
+                    category: categorydata,
+                    brand: branddata
+                })
 
             }
             else {
                 const productdata = await productData.find({ $and: [{ price: { $gte: low } }, { price: { $lt: high } }], status: true })
-                res.render('allProducts', { Product: productdata, user: userdata, category: categorydata, brand: branddata })
+                res.render('allProducts', {
+                    Product: productdata,
+                    user: userdata,
+                    category: categorydata,
+                    brand: branddata
+                })
             }
         }
         else {
             if (typeof req.query.high === null) {
                 const productdata = await productData.find({ $and: [{ price: { $gte: low } }], status: true })
-                res.render('allProducts', { Product: productdata, category: categorydata, brand: branddata })
+                res.render('allProducts', {
+                    Product: productdata,
+                    category: categorydata,
+                    brand: branddata
+                })
 
             }
             else {
                 const productdata = await productData.find({ $and: [{ price: { $gte: low } }, { price: { $lt: high } }], status: true })
-                res.render('allProducts', { Product: productdata, category: categorydata, brand: branddata })
+                res.render('allProducts', {
+                    Product: productdata,
+                    category: categorydata,
+                    brand: branddata
+                })
 
             }
         }
 
     } catch (error) {
         next(error)
+        res.render("404", { errorMessage: "An error occurred." });
+
     }
 }
 
