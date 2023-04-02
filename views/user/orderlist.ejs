@@ -4,7 +4,7 @@
 <%- include ('../layouts/user/header.ejs') %>
 <%- include ('../layouts/user/navbar.ejs') %>
 
-<section class="" style="margin: 100px; border: 1px black;  ">
+<section class="" style="margin: 100px; border: 1px black;">
 
   <table class="table align-middle mb-0 bg-white" id="reload">
     <thead class="bg-light">
@@ -51,7 +51,7 @@
         <%  if(x.status==='confirmed'||x.status==='processing'||x.status==='Shipped'){ %>
         <td>
           <!-- <a type="button" class="btn btn-outline-warning btn-sm  mb-2" href="#">Cancell</a> -->
-          <a onclick="cancellOrder('<%=x._id%>')" type="button" class="btn btn-outline-warning btn-sm  mb-2" href="#">Cancell</a>
+          <a onclick="cancellOrder('<%=x._id%>')" type="button" class="btn btn-outline-warning btn-sm  mb-2" href="#">Cancel</a>
         </td>
         <%} else if(x.status==='Delivered'){ %>
         <td>
@@ -96,7 +96,8 @@
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'yes, remove!'
+      confirmButtonText: 'yes, Cancel!',
+      cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
@@ -107,9 +108,9 @@
           method: 'post',
           success: (response) => {
             if (response.success) {
-              $('#order').load('/vieworders #order')
+              $('#reload').load('/vieworders #reload')
               Swal.fire({
-                title: 'remove!',
+                title: 'cancelled!',
                 text: 'Item removed from order',
                 icon: 'success',
                 timer: 1000,
@@ -150,7 +151,7 @@
           method: 'post',
           success: (response) => {
             if (response.success) {
-              $('#order').load('/vieworders #order')
+              $('#reload').load('/vieworders #reload')
               Swal.fire({
                 title: 'returned!',
                 text: 'Order returned',

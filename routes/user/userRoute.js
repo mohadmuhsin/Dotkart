@@ -50,7 +50,6 @@ userRoute.get('/wishlist', auth.isLogin, wishlistController.loadwishlist)
 //cart get
 userRoute.get('/cart', auth.isLogin, cartController.loadCart)
 
-
 //normal post
 userRoute.post('/login',auth.isLogout, userController.verifyLogin)
 userRoute.post('/signup', userController.verifySignup)
@@ -59,6 +58,7 @@ userRoute.post('/addAddress',auth.isLogin,userController.addAddress)
 userRoute.post('/removeAddress',auth.isLogin,userController.removeAddress)
 userRoute.post('/viewAddress/:id',auth.isLogin,userController.updateAddress)
 userRoute.post('/editProfile/:id',auth.isLogin,userController.editProfile)
+userRoute.post('/modaldAdAddress',auth.isLogin,userController.modaldAdAddress)
 
 
 userRoute.get('/loadCheckout',auth.isLogin,orderController.loadCheckout)

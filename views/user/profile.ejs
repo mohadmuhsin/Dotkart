@@ -186,7 +186,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="alert alert-warning" role="alert" id="alertDiv" style="display: none;">
+                                  <div class="alert alert-success" role="alert" id="alertDiv" style="display: none;">
                                   </div>
 
                                   <% if(typeof message!=="undefined"){%>
@@ -230,7 +230,6 @@
                                           break;
                                         }
                                       }
-                                      console.log('checked nullfields');
                                       if (!nullFields) {
 
                                         const userId = document.getElementById('userId').value;
@@ -246,7 +245,6 @@
                                         changePassword(data);
                                       }
                                     });
-                                    console.log("check 1");
 
                                     function changePassword(data) {
                                       $.ajax({

@@ -91,7 +91,7 @@
                           <% }); %>
                         </select>
                       </div>
-                      <a class="btn btn-outline-warning mt-3 " data-toggle="modal" data-target="#<%= user._id %>" style="text-decoration: none;font-weight: 400;" href="/UserviewAddressview">Add Address</a>
+                      <a class="btn btn-outline-warning mt-3 " data-toggle="modal" data-target="#addAddress" style="text-decoration: none;font-weight: 400;" href="/UserviewAddressview">Add Address</a>
                     </div>
                   </div>
 
@@ -192,7 +192,7 @@
                             display: none;
                             position: absolute;
                             z-index: 1;
-                            background-color: #f9f9f9;
+                            background-color: #68eb2c;
                             min-width: 160px;
                             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
                             border-radius: 4px;
@@ -206,7 +206,7 @@
                           }
 
                           .dropdown-content a:hover {
-                            background-color: #f1f1f1;
+                            background-color: #0ad94f;
                           }
 
                           .dropdown:hover .dropdown-content {
@@ -214,35 +214,38 @@
                           }
                         </style>
                         <% if(typeof Coupon !='undefined'){ %>
-                        <div class="dropdown">
-
-                          <button class="dropbtn">Your Coupons</button>
-                          <div class="dropdown-content">
-                            <% Coupon.forEach((x)=>{ %>
-                            <a href="#" id="coupon1"><%= x.code %></a>
-                            <% }) %>
-                            <div class="alert alert-warning" role="alert" id="alertDiv" style="display: none;">
+                          <div class="dropdown">
+                            <button class="dropbtn" id="couponBtn">Your Coupons</button>
+                            <div class="dropdown-content">
+                              <% Coupon.forEach((x)=>{ %>
+                              <a  id="coupon1"><%= x.code %></a>
+                              <% }) %>
+                              <div class="alert alert-warning" role="alert" id="alertDiv" style="display: none;"></div>
                             </div>
                           </div>
-                        </div>
                         <% } %>
                         <script>
                           var coupons = document.querySelectorAll(".dropdown-content a");
-
+                        
                           coupons.forEach(function(coupon) {
                             coupon.addEventListener("click", function() {
                               var couponText = coupon.innerHTML;
                               navigator.clipboard.writeText(couponText).then(function() {
                                 console.log("Copied to clipboard: " + couponText);
                                 $('#alertDiv').removeClass('alert-danger').addClass('alert-success').show().html("coupon code copied successfully");
-
-
                               }, function() {
                                 console.error("Unable to copy text: " + couponText);
                               });
                             });
                           });
+                        
+                          var couponBtn = document.getElementById("couponBtn");
+                        
+                          couponBtn.addEventListener("click", function(event) {
+                            event.preventDefault(); // prevents the default behavior of the button when it is clicked
+                          });
                         </script>
+                        
 
 
 
@@ -324,7 +327,7 @@
 <%- include('../layouts/user/footer.ejs') %>
 
 <!-- Modal -->
-<div class="modal fade" id="<%= user._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -335,7 +338,7 @@
           </button>
         </div>
         <div class="modal-body ">
-          <form id="myForm" action="/addAddress/<%=user._id %>" method="post">
+          <form  id="addckAddress" action="/modaldAdAddress/<%=user._id %>" method="post">
             <div class="row">
               <div class="col-6 ">
                 <div class="profile-head">
@@ -356,25 +359,26 @@
                 <div class="tab-content profile-tab" id="myTabContent">
                   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row">
+                      <input type="hidden" id="userId" value="<%=user._id%>">
                       <div class="col-6">
                         Name:
-                        <input type="text" class="form-control" placeholder="Enter Your Full Name" name="Name" pattern="[a-zA-Z\s]+" required>
+                        <input type="text" class="form-control" placeholder="Enter Your Full Name" id="Name" name="Name" pattern="[a-zA-Z\s]+" >
                       </div>
 
                       <div class="col-6">
                         House Name:
-                        <input type="text" class="form-control" placeholder="Enter Housename" name="Housename" pattern="[a-zA-Z\s]+" required>
+                        <input type="text" class="form-control" placeholder="Enter Housename" id="Housename" name="Housename" pattern="[a-zA-Z\s]+" >
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6">
                         Street:
-                        <input type="text" class="form-control" placeholder="Enter Street Name" name="Street"  pattern="[a-zA-Z\s]+" required>
+                        <input type="text" class="form-control" placeholder="Enter Street Name" id="Street" name="Street"  pattern="[a-zA-Z\s]+" >
 
                       </div>
                       <div class="col-6">
                         District:
-                        <input type="text" class="form-control" placeholder="Enter your District " name="District" pattern="[a-zA-Z\s]+" required>
+                        <input type="text" class="form-control" placeholder="Enter your District " id="District" name="District" pattern="[a-zA-Z\s]+" >
 
                       </div>
 
@@ -382,25 +386,29 @@
                     <div class="row">
                       <div class="col-6">
                         State:
-                        <input type="text" class="form-control" placeholder="Enter your State " name="State" pattern="[a-zA-Z\s]+" required>
+                        <input type="text" class="form-control" placeholder="Enter your State " id="State" name="State" pattern="[a-zA-Z\s]+" >
 
                       </div>
                       <div class="col-6">
                         Phone:
-                        <input type="number" class="form-control" placeholder="Enter your Phone Number " name="Phone" required minlength="10" pattern="[0-9]{10}">
+                        <input type="number" class="form-control" placeholder="Enter your Phone Number" id="Phone" name="Phone"  minlength="10" pattern="[0-9]{10}">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-6">
                         Pincode:
-                        <input type="number" class="form-control" placeholder="Enter your Pincode " name="Pincode" required minlength="6" pattern="[0-9]{6}">
+                        <input type="number" class="form-control" placeholder="Enter your Pincode" id="Pincode" name="Pincode"  minlength="6" pattern="[0-9]{6}">
                       </div>
                       <div class="col-6">
                         Country:
-                        <input type="text" class="form-control mb-5" placeholder="Enter your Country " name="Country" pattern="[a-zA-Z\s]+" required>
+                        <input type="text" class="form-control mb-5" placeholder="Enter your Country" id="Country" name="Country" pattern="[a-zA-Z\s]+" >
                       </div>
+                      
                     </div>
+                    <div class="alert alert-success" role="alert" id="alertDiv" style="display: none;">
+                    </div>
+                   
                     <div class="row float-right">
 
                       <button type="submit" style="margin-bottom:36px ;   font-weight: bold;" class="btn btn-outline-warning">Submit</button>
@@ -569,3 +577,78 @@
       })
     }
   </script>
+
+
+
+
+<script>
+  const form = document.getElementById('addckAddress');
+  const inputs = form.querySelectorAll('input');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let nullFields = false;
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].value == '') {
+        nullFields = true;
+        console.log('All fields are required!!');
+        $('#alertDiv').show().html('All fields are required!!');
+        setTimeout(() => {
+          $('#alertDiv').fadeOut('slow');
+        }, 5000);
+        break;
+      }
+    }
+    console.log($('#alertDiv'));
+
+    if (!nullFields) {
+
+      const userId = document.getElementById('userId').value;
+      const Name = document.getElementById('Name').value;
+      const Housename = document.getElementById('Housename').value;
+      const Street = document.getElementById('Street').value;
+      const District = document.getElementById('District').value;
+      const State = document.getElementById('State').value;
+      const Phone = document.getElementById('Phone').value;
+      const Country = document.getElementById('Country').value;
+      const Pincode = document.getElementById('Pincode').value;
+      const data = {
+        userId,
+        Name,
+        Housename,
+        Street,
+        District,
+        State,
+        Phone,
+        Country,
+        Pincode
+      };
+      changePassword(data);
+    }
+  });
+
+  function changePassword(data) {
+    $.ajax({
+      url: '/modaldAdAddress',
+      data: data,
+      method: "post",
+
+      success: function(response) {
+
+        if (response.success) {
+          $('#alertDiv').removeClass('alert-danger').addClass('alert-success').show().html("Address added successfully");
+          setTimeout(() => {
+            $('#alertDiv').fadeOut('slow');
+            //hide modal
+            $('#addAddress').on('hidden.bs.modal', function() {});
+            $('#addAddress').modal('hide');
+          }, 5000);
+
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error(xhr);
+      }
+    });
+  }
+</script>

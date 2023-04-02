@@ -8,6 +8,7 @@ const categoryData = require('../../models/categoryData')
 const { AddCategory } = require('../categoryController')
 const bannerData = require('../../models/bannerData')
 const brandData = require('../../models/brandData')
+const couponData = require('../../models/couponData')
 
 
 
@@ -442,7 +443,6 @@ const updateAddress = async (req, res, next) => {
 
 const editProfile = async (req, res, next) => {
     try {
-        console.log("its name" + req.body.Name);
         if (req.body.Name.trim() == '' || req.body.email.trim() == '') {
             const categorydata = await categoryData.find({ status: true })
             const user = req.session.user
@@ -495,7 +495,45 @@ const removeAddress = async (req, res, next) => {
 
 
 
+//modal add address in checkout
+const modaldAdAddress = async (req, res, next) => {
+    try {
+        const data = req.body
+        const oldPass = data.oldPassword
+        const userdata = await userData.findOne({ _id: data.userId })
+        console.log(req.body);
+      
+        console.log("vannnnnnnnnnnnnu");
+       
+            if (req.session.user) {
+                console.log("check 2");
+                const user = req.session.user
+               const update= await userData.updateOne({ _id: user._id }, {
+                    $push: {
+                        address:
+                        {
+                            name: req.body.Name,
+                            housename: req.body.Housename,
+                            street: req.body.Street,
+                            district: req.body.District,
+                            state: req.body.State,
+                            pincode: req.body.Pincode,
+                            country: req.body.Country,
+                            phone: req.body.Phone
+                        }
 
+                    }
+                });
+                console.log(update);
+
+                res.json({ success: true })
+            }
+
+    } catch (error) {
+        next(error)
+
+    }
+}
 
 
 const search = async (req, res) => {
@@ -551,9 +589,8 @@ const changePassword = async (req, res) => {
     try {
         const data = req.body
         const oldPass = data.oldPassword
-        console.log(data);
         const userdata = await userData.findOne({ _id: data.userId })
-        // console.log(userdata);
+
         if (userdata) {
             const compare = await bcrypt.compare(oldPass, userdata.password)
             if (compare) {
@@ -562,7 +599,7 @@ const changePassword = async (req, res) => {
                     const update = await userData.updateOne({ _id: data.userId }, { $set: { password: hash } })
                     res.json({ success: true })
                 } else {
-                    res.json({ different: true, message: "The values are different" });
+                    res.json({ different: true });
                 }
             } else {
                 res.json({ notmatch: true })
@@ -851,6 +888,7 @@ module.exports = {
     removeAddress,
     updateAddress,
     editProfile,
+    modaldAdAddress,
     search,
     changePassword,
     forgetPassword,
