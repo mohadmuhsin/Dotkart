@@ -35,29 +35,32 @@
                 <tr>
                   <th class="col">No</th>
                   <th scope="col">Date</th>
-                  <th scope="col">product Name</th>
+                  <th scope="col">Product Name</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Payment method</th>
                   <th scope="col">Total</th>
                 </tr>
               </thead>
               <tbody>
-                <% sales.forEach((x,index)=>{ %>
+                <% sales.forEach((order, index) => { %>
+                <% order.product.forEach((product, i) => { %>
                 <tr>
-                  <th scope="row"><%= index+1 %></th>
-                  <td><%= x.date.toLocaleString() %></td>
-                  <% x.product.forEach((y)=>{%>
-                  <td><%= y.productId.name %></td>
-                  <% })  %>
-                  <% x.product.forEach((y)=>{%>
-                  <td><%= y.quantity %></td>
-                  <% })  %>
-                  <td><%= x.paymentType %></td>
-                  <td><%= x.total %></td>
+                  <% if (i === 0) { %>
+                  <th scope="row" rowspan="<%= order.product.length %>"><%= index + 1 %></th>
+                  <td rowspan="<%= order.product.length %>"><%= order.date.toLocaleString() %></td>
+                  <% } %>
+                  <td><%= product.productId.name %></td>
+                  <td><%= product.quantity %></td>
+                  <% if (i === 0) { %>
+                  <td rowspan="<%= order.product.length %>"><%= order.paymentType %></td>
+                  <td rowspan="<%= order.product.length %>"><%= order.total %></td>
+                  <% } %>
                 </tr>
+                <% }) %>
                 <% }) %>
               </tbody>
             </table>
+            
           </div>
         </div>
       </div>

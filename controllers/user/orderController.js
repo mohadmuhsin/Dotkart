@@ -53,6 +53,7 @@ const loadCheckout = async (req, res) => {
 const loadOrderSuccess = async (req, res) => {
     try {
 
+
         const user = req.session.user
 
         const userdata = await userData.findOne({ _id: user._id })
@@ -62,6 +63,7 @@ const loadOrderSuccess = async (req, res) => {
         console.log(req.body);
 
         const orderdata = req.body
+       
         if (!Array.isArray(orderdata.productId)) {
             orderdata.productId = [orderdata.productId]
         }
