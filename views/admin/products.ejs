@@ -1,0 +1,106 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Products</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active">Products</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-12 mt-3">
+        <a href="/admin/addProduct"> <button type="button" class="btn btn-dark mb-3">Add products</button></a>
+
+        <div class="card  overflow-auto">
+
+          <div class="card-body">
+            <h5 class="card-title">Product list</h5>
+<form action="" id="example">
+            <table class="table  datatable" id="reload">
+              <thead>
+                <tr>
+                  <th class="col">No</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Brand</th>
+                  <th scope="col">Stock</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Image</th>
+                  <th class="p-l-15">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% datas.forEach((pro,index)=>{%>
+                <tr>
+                  <th scope="row"><%= index+1 %></th>
+                  <td><%=pro.name%></td>
+                  <td><%=pro.category.category %></td>
+                  <td><%=pro.brand.brand %></td>
+                  <td><%=pro.stock%></td>
+                  <td><%=pro.price%></td>
+                  <td><img style="height:50px; width: 50px;" src="/proImages/<%= pro.image[0] %>" alt="no image"></td>
+
+                  <td>
+                    <a href="/admin/products/editProduct/<%= pro._id%>"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="Green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                    </a>
+                  
+                    <%  if(pro.status){ %>
+                        <a type="button" class="btn btn-outline-warning btn-sm  " href="/admin/productList/<%=pro._id%>">Unlist</a>
+                    
+                      <%} else { %>
+                     
+                        <a  type="button" class="btn btn-outline-danger btn-sm  " href="/admin/productList/<%=pro._id%>">List</a>
+                        <% } %>
+                  </td>
+
+                  <td>
+                    <a href="/admin/viewProdutdetail<%= pro._id%>">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </a>
+                  </td>
+                </tr>
+                <% });%>
+              </tbody>
+            </table>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+  
+
+</main>
+
+<!-- <script>
+  $(document).ready(function() {
+    $('#example').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        'csv', 'pdf'
+      ]
+    });
+  });
+</script> -->
+
+
+<%- include('../layouts/admin/footer.ejs') %>

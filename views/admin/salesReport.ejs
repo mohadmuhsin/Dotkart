@@ -1,0 +1,88 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Sales</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active">Sales</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="col-12 mt-3">
+
+        <div class="card  overflow-auto">
+
+          <div class="card-body">
+            <div class="card-title d-flex">
+
+              <h5>Sales report</h5>
+
+
+            </div>
+            <table id="example" class="table  datatable">
+              <thead>
+                <tr>
+                  <th class="col">No</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Product Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Payment method</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% sales.forEach((order, index) => { %>
+                <% order.product.forEach((product, i) => { %>
+                <tr>
+                  <% if (i === 0) { %>
+                  <th scope="row" rowspan="<%= order.product.length %>"><%= index + 1 %></th>
+                  <td rowspan="<%= order.product.length %>"><%= order.date.toLocaleString() %></td>
+                  <% } %>
+                  <td><%= product.productId.name %></td>
+                  <td><%= product.quantity %></td>
+                  <% if (i === 0) { %>
+                  <td rowspan="<%= order.product.length %>"><%= order.paymentType %></td>
+                  <td rowspan="<%= order.product.length %>"><%= order.total %></td>
+                  <% } %>
+                </tr>
+                <% }) %>
+                <% }) %>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+</main>
+
+
+
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+        'csv', 'pdf','print'
+      ]
+    });
+  });
+</script>
+
+
+
+<%- include('../layouts/admin/footer.ejs') %>

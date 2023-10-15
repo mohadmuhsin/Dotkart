@@ -1,0 +1,71 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Category</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active">Category</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <div class="col-12 mt-3">
+    <a href="/admin/addCategory"> <button type="button" class="btn btn-dark mb-3">Add Category</button></a>
+
+  </div>
+
+  <!-- Recent Sales -->
+  <div class="col-12">
+    <div class="card recent-sales overflow-auto">
+
+
+      <div class="card-body">
+        <h5 class="card-title">Category</h5>
+
+        <table class="table table-borderless datatable " style="margin-left: 10px;">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%  categoryDatas.forEach((cat,index)=>{%>
+            <tr>
+              <th class="row"><%= index+1 %></th>
+              <td><%= cat.category %></td>
+              <td><%= cat.description %></td>
+                <td>
+                 <a  type="button" class="btn btn-outline-secondary btn-sm" href="/admin/category/editCategory/<%= cat._id%>">Edit</a>
+                 
+                  
+                    <%  if(cat.status){ %>
+                        <a type="button" class="btn btn-outline-warning btn-sm  " href="/admin/catogoryList/<%=cat._id%>">Unlist</a>
+                    
+                      <%} else { %>
+                     
+                        <a  type="button" class="btn btn-outline-danger btn-sm  " href="/admin/catogoryList/<%=cat._id%>">List</a>
+                        <% } %>
+                  </td>
+                </td>
+            </tr>
+            <% });%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- End Recent Sales -->
+  <% if(typeof message!=="undefined"){%>
+    <h1 style ="font-size:16px;color:rgb(73, 34, 227);"><%=message %></h1>
+    <%}%>
+</main><!-- End #main -->
+<%- include('../layouts/admin/footer.ejs') %>
