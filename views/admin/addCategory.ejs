@@ -1,0 +1,54 @@
+  <%- include('../layouts/admin/header.ejs') %>
+  <%- include('../layouts/admin/navbar.ejs') %>
+  <%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+  <main id="main" class="main">
+
+    <div calass="pagetitle">
+      <h1>Add Category</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+          <li class="breadcrumb-item active"><a href="/admin/addCategory">Add Category</a></li>
+        </ol>
+      </nav>
+    </div>
+
+    <section class="section dashboard"> 
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <br>
+            <!-- Vertical Form -->
+            <form class="row g-3" action="/admin/addCategory" method="post">
+              <div class="col-12">
+                <label for="inputNanme4" class="form-label">Category Name</label>
+                <input type="text" class="form-control" name="Category">
+              </div>
+              <div class="col-12">
+                <label for="fordescription" class="form-label">Description</label>
+                <input type="text" class="form-control" pattern="[a-zA-Z\s]+" name="Description">
+              </div>
+              <% if(typeof message !== 'undefined'){ %>
+                <p style="color: brown;"><%- message %> </p>
+                <% } %>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success" pattern="[a-zA-Z\s]+" style="float:right;   padding-inline: 50px;"> submit</button>
+              </div>
+            </form><!-- Vertical Form -->
+          </div>
+        </div>
+
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <%- include('../layouts/admin/footer.ejs') %>

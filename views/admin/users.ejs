@@ -1,0 +1,105 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>users</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active">users</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
+              </li>
+
+              <li><a class="dropdown-item" href="#">Today</a></li>
+              <li><a class="dropdown-item" href="#">This Month</a></li>
+              <li><a class="dropdown-item" href="#">This Year</a></li>
+            </ul>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title">users</h5>
+
+            <table class="table table-borderless datatable" id="reload">
+              <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Mobile No</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% userdata.forEach((x,index)=>{%>
+
+                <tr>
+                  <th scope="row"><%= index +1 %></th>
+                  <td><%=x.name%></td>
+                  <td><%= x.email %></td>
+                  <td><%=x.mobileNumber %></td>
+                  <% if(x.status) {%>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <a type="button" class="btn btn-outline-danger btn-sm" href="/admin/useractive/<%=x._id%>">Block</a>
+                  </td>
+                  <% }else{%>
+                  <td><span class="badge bg-danger">Inactive</spa n>
+                  </td>
+                  <td>
+                    <a type="button" class="btn btn-outline-success btn-sm" href="/admin/useractive/<%=x._id%>">UnBlock</a>
+                  </td>
+                  <% } %>
+
+                  <% if(x.status){%>
+
+                  <%}else{%>
+
+
+                  <% } %>
+                </tr>
+
+                <%}) %>
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div><!-- End Recent Sales -->
+    </div>
+    </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+
+
+<%- include('../layouts/admin/footer.ejs') %>
+<script>
+  $(document).ready(function() {
+    $('#reload').DataTable();
+  });
+</script>

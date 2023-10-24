@@ -1,0 +1,172 @@
+<%- include('../layouts/admin/header.ejs') %>
+<%- include('../layouts/admin/navbar.ejs') %>
+<%- include('../layouts/admin/sidebar.ejs') %>
+
+
+
+
+<main id="main" class="main">
+
+  <div calass="pagetitle">
+    <h1>Edit Products</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/admin/products/editProduct">Edit Products</a></li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <div class="card">
+        <div class="card-body">
+          <br>
+          <!-- Vertical Form -->
+          <form class="row g-3" action="" method="post" enctype="multipart/form-data">
+            <style>
+              input::-webkit-outer-spin-button,
+              input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+            </style>
+            <div class="col-12">
+              <label class="form-label">Product Name</label>
+              <input type="text" class="form-control" name="Product" value="<%= productData.name %>">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Image</label>
+              <input multiple type="file" class="form-control" name="Image">
+              <% productData.image.forEach((x,index)=> { %>
+              <img src="/proImages/<%=x %>" width="50px" height="50px" alt="">
+              <% }) %>
+
+
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Edit Image
+              </button>
+              <br>
+              <br><% if(typeof warning !== 'undefined'){ %>
+                <div><h5 style="color: red;"><%- warning %> </h5></div>
+              <% } %>
+      
+
+              <div class="form-group">
+                <label class="col-sm-12">Category</label>
+                <div class="col-sm-12">
+                  <select name="Category" class="form-control form-control-line">
+                    <option value="<%= productData.category._id %>"><%= productData.category.category%></option>
+                    <% categorydata.forEach((x,index)=> { %>
+                    <option value="<%= x._id %>">
+                      <%= x.category  %>
+                    </option>
+                    <% }); %>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="col-sm-12">Brand</label>
+                <div class="col-sm-12">
+                  <select name="Brand" class="form-control form-control-line">
+                    <option value="<%= productData.brand._id %>"><%= productData.brand.brand%></option>
+                    <% brand.forEach((x,index)=> { %>
+                    <option value="<%= x._id %>">
+                      <%= x.brand  %>
+                    </option>
+                    <% }); %>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <input type="text" class="form-control" name="Description" value="<%= productData.description %>">
+              </div>
+
+              <div class="col-6">
+                <label class="form-label">Stock</label>
+                <input min="1" inputmode="numeric" type="number" class="form-control" name="Stock" value="<%= productData.stock %>">
+              </div>
+
+              <div class="col-6">
+                <label class="form-label">Price</label>
+                <input min="1" inputmode="numeric" type="number" class="form-control" name="Price" value="<%= productData.price %>">
+              </div>
+              <!-- <div class="col-12">
+                  <label  class="form-label">Offer Price</label>
+                  <input type="number" class="form-control" name="OfferPrice">
+                </div> -->
+              <% if(typeof message !== 'undefined'){ %>
+              <p style="color: brown;"><%- message %> </p>
+              <% } %>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success" style="float:right;   padding-inline: 50px;"> Submit</button>
+              </div>
+          </form><!-- Vertical Form -->
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+</main><!-- End #main -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/admin/updateimage/<%- productData._id %>" method="post" enctype="multipart/form-data">
+      <div class="modal-body">
+        <input onchange="show(this)" multiple type="file" name="Image" class="form-control">
+        <% productData.image.forEach((x,index)=>{%>
+          <img src="/proImages/<%=x %>" alt="" width="50px" height="50px">
+          <a href="/admin/deleteimg/<%= x %>/<%= productData._id %>">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+        </a>
+          <br>
+        <% }) %>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function show(input) {
+    debugger;
+    var validExtensions = ['jpg', 'png', 'jpeg']; //array of valid extensions
+    var fileName = input.files[0].name;
+    var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+    if ($.inArray(fileNameExt, validExtensions) == -1) {
+      input.type = ''
+      input.type = 'file'
+      $('#user_img').attr('src', "");
+      alert("Only these file types are accepted : " + validExtensions.join(', '));
+    }
+    else {
+      if (input.files && input.files[0]) {
+        var filerdr = new FileReader();
+        filerdr.onload = function (e) {
+          $('#user_img').attr('src', e.target.result);
+        }
+        filerdr.readAsDataURL(input.files[0]);
+      }
+    }
+  }
+</script>
+<%- include('../layouts/admin/footer.ejs') %>

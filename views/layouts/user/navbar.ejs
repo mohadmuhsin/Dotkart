@@ -1,0 +1,226 @@
+<header>
+  <!-- Header desktop -->
+  <div class="container-menu-desktop">
+    <!-- Topbar -->
+    <div class="top-bar">
+      <div class="content-topbar flex-sb-m h-full container">
+        <div class="left-top-bar">
+          Free shipping for standard order over ₹100
+        </div>
+            <div class="right-top-bar flex-w h-full">
+          <% if(typeof user!="undefined"){%>
+            <a href="/profile" class="flex-c-m trans-04 p-lr-25">
+             <%=user.name%>
+          </a>
+       
+          <a href="/logout" class="flex-c-m trans-04 p-lr-25" id="logoutLink">
+            Logout
+          </a>
+          
+          <% }else{ %>
+          <a href="/login" class="flex-c-m trans-04 p-lr-25">
+            Log in
+          </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+
+
+<script>
+    const logoutLink = document.getElementById('logoutLink');
+    logoutLink.addEventListener('click', (event) => {
+      event.preventDefault(); // prevent the default link behavior
+      swal({
+        title: "Are you sure you want to logout?",
+        text: "You will be logged out of your account.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willLogout) => {
+        if (willLogout) {
+          window.location.href = "/logout"; // perform the logout action
+        }
+      });
+    });
+    
+</script>
+
+
+
+
+
+
+
+
+    <div class="wrap-menu-desktop bg-light" >
+      <nav class="limiter-menu-desktop container">
+
+        <!-- Logo desktop -->
+        <a style="font-size:xx-large;  -webkit-text-stroke-color: black; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-weight: 900;" href="/" class="logo">
+          Dotkart
+        </a>
+
+        <!-- Menu desktop -->
+        <div class="menu-desktop">
+          <ul class="main-menu m">
+            <li class="nav-link scrollto active" href="#hero">
+              <a href="/">Home</a>
+            </li>
+
+            <li>
+              <a href="/allProducts">All Products</a>
+            </li>
+           
+
+            <li>
+              <a href="#">Categories</a>
+              <ul class="sub-menu m">
+                <% category.forEach((x)=>{%>
+                <% if(typeof x.category!=='undefined') %>
+                <li class="ml-3"><a href="/category/<%= x._id%>"></a><%=x.category %></li>
+                <% }) %>
+              </ul>
+            </li>
+
+
+          </ul>
+        </div>
+
+        <!-- Icon header -->
+        
+
+
+        <div class="wrap-icon-header flex-w flex-r-m">
+          <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+            <i class="zmdi zmdi-search"></i>
+          </div>
+
+          <a href="/cart" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+            <i class="zmdi zmdi-shopping-cart"></i>
+          </a>
+
+          <a href="/wishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
+            <i class="zmdi zmdi-favorite-outline"></i>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+
+
+
+  <!-- Header Mobile -->
+  <div class="wrap-header-mobile">
+    <!-- Logo moblie -->
+    <div class="logo-mobile">
+      <a href="/" style="font-size:xx-large;  -webkit-text-stroke-color: black; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-weight: 900;">Dotkart</a>
+    </div>
+
+    <!-- Icon header -->
+    <div class="wrap-icon-header flex-w flex-r-m m-r-15">
+
+      <form class="search-form d-flex align-items-center" method="POST" action="/search">
+        <!-- <input type="text" name="search" id="search-input" class="search-input" style="border-radius: 50px; background-color: transparent; border: solid .5px rgb(204, 204, 204); padding-right: 10px; padding-left: 15px; color: #818181;  " placeholder="Search" title="Enter search keyword"> -->
+      
+        <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+          <i class="zmdi zmdi-search"></i>
+      </form>
+    </div>
+
+    <a href="/cart" class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 ">
+      <i class="zmdi zmdi-shopping-cart"></i>
+    </a>
+
+    <a href="/wishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 ">
+      <i class="zmdi zmdi-favorite-outline"></i>
+    </a>
+  </div>
+
+
+
+  <!-- Button show menu -->
+  <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+  </div>
+  </div>
+
+
+  <!-- Menu Mobile -->
+  <div class="menu-mobile">
+    <ul class="topbar-mobile">
+      <li>
+        <div class="left-top-bar">
+          Free shipping for standard order over ₹100
+        </div>
+      </li>
+
+      <li>
+        <div class="right-top-bar flex-w h-full">
+          <% if(typeof user!=="undefined"){%>
+          <a href="/profile" class="flex-c-m p-lr-10 trans-04">
+            
+          </a>
+          <% } %>
+
+          <% if(typeof user!="undefined"){%>
+          <a href="/logout" class="flex-c-m p-lr-10 trans-04">
+            Logout
+          </a>
+          <% }else{ %>
+          <a href="/login" class="flex-c-m p-lr-10 trans-04">
+            Log in
+          </a>
+          <% } %>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="main-menu-m">
+
+
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/allProducts">All Products</a>
+      </li>
+
+      <li>
+        <a href="#">Categories</a>
+        <ul class="sub-menu-m">
+          <% category.forEach((x)=>{%>
+          <% if(typeof x.category!=='undefined'){ %>
+          <li><a href="/category/<%= x._id%>"></a><%=x.category %></a></li>
+          <% } %>
+          <% }) %>
+        </ul>
+        <span class="arrow-main-menu-m">
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </span>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- Modal Search -->
+  <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+    <div class="container-search-header">
+      <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+        <img src="images/icons/icon-close2.png" alt="CLOSE">
+      </button>
+
+      <form class="wrap-search-header flex-w p-l-15" method="POST" action="/search">
+        <button class="flex-c-m trans-04">
+          <i class="zmdi zmdi-search"></i>
+        </button>
+        <input class="plh3" type="text" id="search" name="search" placeholder="Search...">
+      </form>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,293 @@
+<%- include ('../layouts/user/header.ejs') %>
+<%- include ('../layouts/user/navbar.ejs') %>
+
+
+<% if(Product[0]==null){ %>
+  <style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f1f1f1;
+			text-align: center;
+			padding-top: 50px;
+		}
+
+		h1 {
+			font-size: 36px;
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 18px;
+			margin-bottom: 30px;
+		}
+
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 14px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 18px;
+		}
+
+		button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+<div class="bg0 p-t-203 p-b-140">
+  <div class="container">
+    <h1>No Matches Found</h1>
+    <p>Sorry, we couldn't find any matches for your search.</p>
+    <button onclick="location.href='/'">Return to Home</button>
+  </div>
+</div>
+
+
+
+<% }else{ %>
+
+
+<!-- Product -->
+<div class="bg0 m-t-23 p-b-140">
+  <div class="container">
+    <div class="flex-w flex-sb-m p-b-52">
+      <div class="flex-w m-l-auto  m-t-60">
+
+        <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+          <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+          <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+          Filter
+        </div>
+
+        <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+          <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+          <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+          Search
+        </div>
+      </div>
+
+      <!-- Search product -->
+      <div class="dis-none panel-search w-full p-t-10 p-b-15">
+        <div class="bor8 dis-flex p-l-15">
+          <form class="search-form d-flex align-items-center" method="POST" action="/search">
+            <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+              <i class="zmdi zmdi-search"></i>
+            </button>
+            <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search" placeholder="Search">
+          </form>
+        </div>
+      </div>
+
+
+      <div class="dis-none panel-filter w-full p-t-10">
+        <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm justify-content-center">
+          <div class="filter-col4 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+              Brands
+            </div>
+            <ul>
+              <% brand.forEach((x)=>{ %>
+              <% if(x.status) {%>
+              <li class="p-b-6">
+                <a href="/brands/<%=x._id %>" class="filter-link stext-106 trans-04">
+                  <%=x.brand%>
+                </a>
+              </li>
+              <% } %>
+              <% }) %>
+
+            </ul>
+          </div>
+
+          <div class="filter-col2 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+              Price
+            </div>
+
+            <ul>
+              <li class="p-b-6">
+                <a href="/allProducts" class="filter-link stext-106 trans-04 filter-link-active">
+                  All
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/price?low=0&high=25000" class="filter-link stext-106 trans-04">
+                  ₹0 - ₹25000
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/price?low=25000&high=50000" class="filter-link stext-106 trans-04">
+                  ₹25000 - ₹50000
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/price?low=50000&high=100000" class="filter-link stext-106 trans-04">
+                  ₹50000 - ₹100000
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/price?low=100000&high=150000" class="filter-link stext-106 trans-04">
+                  ₹100000 - ₹200000
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/price?low=150000" class="filter-link stext-106 trans-04">
+                  ₹200000+
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="filter-col4 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+              Price
+            </div>
+            <ul>
+              <li class="p-b-6">
+                <a href="/allProducts" class="filter-link stext-106 trans-04 filter-link-active">
+                  All
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/priceLow?value=1" class="filter-link stext-106 trans-04">
+                  Price: Low to High
+                </a>
+              </li>
+
+              <li class="p-b-6">
+                <a href="/priceLow?value=-1" class="filter-link stext-106 trans-04">
+                  Price: High to Low
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="row isotope-grid  ">
+      <% Product.forEach(x=>{%>
+      <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 d-flex isotope-item women" style="box-shadow: #222;">
+        <!-- Block2 -->
+        <div class="block2 width:200px;height: 300px;bg-success m-lr-auto  m-t-23">
+          <div class="block2-pic hov-img0">
+            <img width="200px" height="200px" src="/proImages/<%= x.image[0] %>" alt="IMG-PRODUCT">
+            <a href="/productDetails/<%= x._id %>" type="button" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 ">
+              Quick View
+            </a>
+          </div>
+
+          <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+              <a href="/productDetails/<%= x._id %>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                <%=x.name%>
+              </a>
+
+              <span class="stext-105 cl3">
+                ₹ <%=x.price%>
+              </span>
+            </div>
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+
+
+              <% if(typeof user!=="undefined"){ %>
+              <a onclick="addToWishlist('<%=x._id%>')" href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+              </a>
+              <% }else{ %>
+              <a href="/login" class="btn-addwish dis-block pos-relative ">
+                <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+              </a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%}) %>
+
+
+    </div>
+
+    <!-- Load more -->
+    <div class="flex-c-m flex-w w-full p-t-45">
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="card-body">
+  <% if(typeof productCount == "undefined"){%>
+  <%}else{%>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <!-- Page numbers -->
+      <% for(let i=1;i<=productCount ;i++){ %>
+      <li class="page-item"><a class="page-link" href="?page=<%=i %>"><%= i %></a></li>
+      <% } %>
+    </ul>
+  </nav>
+  <%}%>
+</div>
+
+<!-- Back to top -->
+<div class="btn-back-to-top" id="myBtn">
+  <span class="symbol-btn-back-to-top">
+    <i class="zmdi zmdi-chevron-up"></i>
+  </span>
+</div>
+
+<!-- Modal1 -->
+<% } %>
+
+
+  <!-- for wishlist////////////////// -->
+  <script>
+    function addToWishlist(proId) {
+      $.ajax({
+        url: '/addToWishlist',
+        data: {
+          productId: proId
+        },
+        method: "post",
+        success: (response) => {
+          if (response.success) {
+            // $('.table-shopping-cart').load('/wishlist .table-shopping-cart')
+            console.log(response);
+            Swal.fire({
+              title: 'Added',
+              text: 'Item added to wishlist',
+              icon: 'success',
+              timer: 1000,
+              showConfirmButton: false
+            })
+          } else {
+            Swal.fire({
+              text: 'Item already in wishlist',
+              icon: 'info',
+              timer: 1000,
+              showConfirmButton: false
+            })
+          }
+          console.log(response);
+        }
+      })
+    }
+  </script>
+
+
+  <%- include ('../layouts/user/footer.ejs') %>
