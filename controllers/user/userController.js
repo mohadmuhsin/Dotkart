@@ -9,22 +9,14 @@ const { AddCategory } = require('../categoryController')
 const bannerData = require('../../models/bannerData')
 const brandData = require('../../models/brandData')
 const couponData = require('../../models/couponData')
-<<<<<<< HEAD
 const { sendVerifyEmailAsLink } = require('../../mail/verifyMail')
-=======
->>>>>>> b15cbbc049e209c2fa100b4130be7c4a64583f97
 
 
 
 
 require('dotenv').config();
-<<<<<<< HEAD
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-=======
-const accountSid = process.env.TWILIO_ACCOUNT_SID; // Your Account SID from www.twilio.com/console
-const authToken = process.env.TWILIO_AUTH_TOKEN;   // Your Auth Token from www.twilio.com/console
->>>>>>> b15cbbc049e209c2fa100b4130be7c4a64583f97
 const client = require('twilio')(accountSid, authToken);
 
 
