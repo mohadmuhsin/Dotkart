@@ -9,13 +9,14 @@ const { AddCategory } = require('../categoryController')
 const bannerData = require('../../models/bannerData')
 const brandData = require('../../models/brandData')
 const couponData = require('../../models/couponData')
+const { sendVerifyEmailAsLink } = require('../../mail/verifyMail')
 
 
 
 
 require('dotenv').config();
-const accountSid = process.env.TWILIO_ACCOUNT_SID; 
-const authToken = process.env.TWILIO_AUTH_TOKEN;   
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 
@@ -86,16 +87,32 @@ const verifySignup = async (req, res, next) => {
         res.render('signup', { message: "This username already exists, please try another." })
     }
     else {
-        mobileNo = req.body.MobileNumber
+        let email = req.body.Email
         try {
-            const otpResponse = await client.verify.v2
-                .services('VAf6a17393a6187b6baeaeadc038a9b04c')
-                .verifications.create({
-                    to: `+91${mobileNo}`,
-                    channel: 'sms',
-                });
-            const categorydata = await categoryData.find({ status: true })
-            res.render('otpPage', { category: categorydata })
+            // const otpResponse = await client.verify.v2
+            //     .services('VAf6a17393a6187b6baeaeadc038a9b04c')
+            //     .verifications.create({
+            //         to: `+91${mobileNo}`,
+            //         channel: 'sms',
+            //     });
+            let otp = Math.floor(1000 + Math.random() * 9000);
+            req.session.users = { ...req.session.users, otp: otp }
+            console.log(otp, req.session.users);
+            let authenticateEmail;
+            await sendVerifyEmailAsLink(
+                email,
+                "OTP Verification",
+                otp
+            ).then(async (response) => {
+                authenticateEmail = response;
+                if (authenticateEmail.status == false) {
+                    res.redirect('/')
+                }
+                const categorydata = await categoryData.find({ status: true })
+                res.render('otpPage', { category: categorydata })
+            }).catch((err) => {
+                console.log(err, "error");
+            })
 
         } catch (error) {
             next(error)
@@ -109,14 +126,9 @@ const verifyOtp = async (req, res, next) => {
     const otp = req.body.otp;
     try {
         const details = req.session.users;
-        const verifiedResponse = await client.verify.v2
-            .services('VAf6a17393a6187b6baeaeadc038a9b04c')
-            .verificationChecks.create({
-                to: `+91${details.MobileNumber}`,
-                code: otp,
-            })
-        if (verifiedResponse.status === 'approved') {
+        console.log(otp,req.session.users.otp);
 
+        if (otp == req.session.users.otp ) {
             const hashedPassword = await bcrypt.hash(details.Password, 10)
             const Datas = new userData({
                 name: details.Name,
