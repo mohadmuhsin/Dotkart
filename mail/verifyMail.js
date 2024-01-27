@@ -5,8 +5,8 @@ require("dotenv").config();
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "muhsinmfz@gmail.com",
-        pass: "evyk rorw rvwn ouxj",
+        user: process.env.GOOGLEUSER,
+        pass: process.env.GOOGLEPASS,
     },
 });
 

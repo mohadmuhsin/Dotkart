@@ -127,7 +127,7 @@ const verifyOtp = async (req, res, next) => {
     try {
         const details = req.session.users;
 
-        if (otp == req.session.users.otp ) {
+        if (otp == req.session.users.otp) {
             const hashedPassword = await bcrypt.hash(details.Password, 10)
             const Datas = new userData({
                 name: details.Name,
@@ -637,8 +637,6 @@ const forgetPassword = async (req, res, next) => {
 //verify mobile data
 const verifyMobile = async (req, res, next) => {
     try {
-        console.log("vannnnnuuu");
-
         req.session.users = req.body
         console.log(req.session.users);
 
@@ -648,9 +646,8 @@ const verifyMobile = async (req, res, next) => {
             res.render('mobileno', { message: 'field cant be empty' })
         } else {
             const data = await userData.findOne({ userName: req.body.Username })
-            console.log(data);
-            console.log('mobile : ', data.mobileNumber);
-
+            if (!data)
+                res.render('mobileno', { message: 'username is invalid!!' })
             console.log("usernamsr: ", data.userName);
             if (req.body.mobile == data.mobileNumber && req.body.Username == data.userName) {
 
