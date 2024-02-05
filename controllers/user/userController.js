@@ -34,7 +34,6 @@ const loadhomepage = async (req, res) => {
             if (req.session.user) {
                 const session_id = req.session.user._id
                 const userdata = await userData.findOne({ _id: session_id })
-                // console.log(userdata);
                 res.render('home', {
                     product: productdata,
                     user: userdata,
@@ -89,15 +88,8 @@ const verifySignup = async (req, res, next) => {
     else {
         let email = req.body.Email
         try {
-            // const otpResponse = await client.verify.v2
-            //     .services('VAf6a17393a6187b6baeaeadc038a9b04c')
-            //     .verifications.create({
-            //         to: `+91${mobileNo}`,
-            //         channel: 'sms',
-            //     });
             let otp = Math.floor(1000 + Math.random() * 9000);
             req.session.users = { ...req.session.users, otp: otp }
-            console.log(otp, req.session.users);
             let authenticateEmail;
             await sendVerifyEmailAsLink(
                 email,
@@ -292,8 +284,7 @@ const category = async (req, res) => {
         let procount = Math.ceil(productcount / limit)
         const categorydata = await categoryData.find({ status: true })
         const branddata = await brandData.find({})
-        // const productdata = await productData.find({ category: id, status: true })
-        console.log(productdata);
+        
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })
@@ -492,9 +483,7 @@ const editProfile = async (req, res, next) => {
 const removeAddress = async (req, res, next) => {
     try {
         const addId = req.body.addressId
-        console.log(addId);
         const user = req.session.user
-        console.log(user._id);
         const data = await userData.updateOne({ _id: user._id },
             { $pull: { address: { _id: addId } } })
         if (data) {
@@ -513,12 +502,9 @@ const modaldAdAddress = async (req, res, next) => {
         const data = req.body
         const oldPass = data.oldPassword
         const userdata = await userData.findOne({ _id: data.userId })
-        console.log(req.body);
 
-        console.log("vannnnnnnnnnnnnu");
 
         if (req.session.user) {
-            console.log("check 2");
             const user = req.session.user
             const update = await userData.updateOne({ _id: user._id }, {
                 $push: {
@@ -536,7 +522,6 @@ const modaldAdAddress = async (req, res, next) => {
 
                 }
             });
-            console.log(update);
 
             res.json({ success: true })
         }
@@ -638,26 +623,33 @@ const forgetPassword = async (req, res, next) => {
 const verifyMobile = async (req, res, next) => {
     try {
         req.session.users = req.body
-        console.log(req.session.users);
 
-        const body = req.body
-        const mobileNo = req.body.mobile
-        if (req.body.mobile.trim() == '') {
+        const { Email, Username } = req.body;
+        if (Username.trim() == '' || Email.trim() == '') {
             res.render('mobileno', { message: 'field cant be empty' })
         } else {
             const data = await userData.findOne({ userName: req.body.Username })
             if (!data)
                 res.render('mobileno', { message: 'username is invalid!!' })
-            console.log("usernamsr: ", data.userName);
-            if (req.body.mobile == data.mobileNumber && req.body.Username == data.userName) {
 
-                const otpResponse = await client.verify.v2
-                    .services('VAf6a17393a6187b6baeaeadc038a9b04c')
-                    .verifications.create({
-                        to: `+91${mobileNo}`,
-                        channel: 'sms',
-                    });
-                res.render('otpfgconfirm')
+            if (Email == data.email && Username == data.userName) {
+                let otp = Math.floor(1000 + Math.random() * 9000);
+                req.session.users = { ...req.session.users, otp: otp }
+                let authenticateEmail;
+                await sendVerifyEmailAsLink(
+                    Email,
+                    "OTP Verification",
+                    otp
+                ).then(async (response) => {
+                    authenticateEmail = response;
+                    if (authenticateEmail.status == false) {
+                        res.redirect('/')
+                    }
+                    const categorydata = await categoryData.find({ status: true })
+                    res.render('otpfgconfirm', { category: categorydata })
+                }).catch((err) => {
+                    console.log(err, "error");
+                })
             } else {
                 res.render('mobileno', { message: 'Username and mobile number are not correct' })
             }
@@ -670,21 +662,33 @@ const verifyMobile = async (req, res, next) => {
 
 const verifyfgOTP = async (req, res, next) => {
     try {
-        const otp = req.body.otp
+        const { otp } = req.body;
         const data = req.session.users
-        const mobileNo = req.body.mobile
 
-        const verifiedResponse = await client.verify.v2
-            .services('VAf6a17393a6187b6baeaeadc038a9b04c')
-            .verificationChecks.create({
-                to: `+91${data.mobile}`,
-                code: otp,
+        if (otp.length < 4) {
+            const categorydata = await categoryData.find({ status: true })
+            res.render('otpfgconfirm', {
+                category: categorydata,
+                message: "Invalid OTP"
             })
-        if (verifiedResponse.status === 'approved') {
-            res.render('password')
+        }
+        if (otp.length > 4) {
+            const categorydata = await categoryData.find({ status: true })
+            res.render('otpfgconfirm', {
+                category: categorydata,
+                message: "Invalid OTP"
+            })
+        }
+        if (otp == data.otp) {
+
+            res.render("password")
         }
         else {
-            res.render('otpfgconfirm', { message: 'wrong otp' })
+            const categorydata = await categoryData.find({ status: true })
+            res.render('otpfgconfirm', {
+                category: categorydata,
+                message: "Invalid OTP"
+            })
         }
     } catch (error) {
         next(error)
@@ -703,7 +707,6 @@ const password = async (req, res, next) => {
 const verifypassword = async (req, res, next) => {
     try {
         const data = req.session.users
-        console.log("session data", data);
         const password = req.body.Password
         const confirm = req.body.confirm
         if (req.body.Password.trim() == '' || req.body.confirm.trim() == '') {
@@ -711,7 +714,7 @@ const verifypassword = async (req, res, next) => {
         } else if (password === confirm) {
             const hash = await bcrypt.hash(password, 10)
             const update = await userData.updateOne({ userName: data.Username }, { $set: { password: hash } })
-            res.redirect('/')
+            res.redirect('/login')
         } else {
             res.render('password', { message: 'password mismatch' })
         }
@@ -764,7 +767,6 @@ const brands = async (req, res, next) => {
 
         }
 
-        console.log(productdata);
     } catch (error) {
         console.log(error.message);
         res.render("404", { errorMessage: "An error occurred." });
