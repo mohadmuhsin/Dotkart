@@ -5,7 +5,21 @@
 <%- include ('../layouts/user/navbar.ejs') %>
 
 <section class="" style="margin: 100px; border: 1px black;">
+  <%  if(order.length==0){ %>
 
+    <div class="col-12 d-flex align-items-center justify-content-center">
+
+      <img src="/assets/img/Empty-bro.png" class="" style="height: 500px; width: 500px;"  alt="">
+    </div>
+    <div class="col-12 d-flex flex-column align-items-center justify-content-center">
+    <h1  class="d-flex justify-content-center"><span style="font-weight: 600; color: rgb(0, 0, 0)  ; ">Order up!</span> </h1>
+    <a href="/" style=" color: inherit;">
+      <p>Add your favorites to this list.</p>
+  </a>
+  
+  </div>
+
+    <%} else { %>
   <table class="table align-middle mb-0 bg-white" id="reload">
     <thead class="bg-light">
       <tr>
@@ -31,13 +45,7 @@
           <p class="fw-normal mb-1"><%= x.date.toLocaleString({ month: '2-digit', day: '2-digit', year: 'numeric' }) %></p><br>
 
         </td>
-        <!-- <td>
-          <% x.product.forEach((element)=>{%>
-
-          <p class="fw-normal mb-1"><%= element.quantity %></p><br>
-          <%})%>
-
-        </td> -->
+    
 
         <td>
           <p class="fw-normal mb-1"><%= x.total %></p>
@@ -75,7 +83,7 @@
       <% })  %>
     </tbody>
   </table>
-
+  <% } %>
 </section>
 
 <script>

@@ -22,6 +22,7 @@
       margin: 0 auto;
       padding: 40px;
       padding-top: 30px;
+      padding-bottom: 10px;
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -73,7 +74,10 @@
       cursor: pointer;
       transition: background-color 0.3s ease-in-out;
     }
-
+    .Remember{
+      display: flex;
+      justify-content: end;
+    }
     button[type="submit"]:hover {
       background-color: #0e5aa7;
     }
@@ -83,30 +87,35 @@
         max-width: 100%;
         padding: 20px;
         padding-top: 15px;
+        padding-bottom: 10px;
         border-radius: 5px;
-        
+
       }
-      h1{
+
+      h1 {
         font-size: larger;
       }
+
       input[type="email"] {
         font-size: 12px;
       }
+
       input[type="text"] {
         font-size: 12px;
       }
+
       button[type="submit"] {
-      width: 100%;
-      padding: 8px;
-      margin-top:4px;
-      border: none;
-      border-radius: 5px;
-      background-color: #1c8adb;
-      font-size: 14px;
-      color: #fff;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-    }
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        border: none;
+        border-radius: 5px;
+        background-color: #1c8adb;
+        font-size: 14px;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+      }
 
     }
   </style>
@@ -116,26 +125,31 @@
   <div class="container">
     <h1>Forgot Password</h1>
     <form action="" method="post">
-    
+
       <!-- <label for="Username">Username:</label> -->
       <input type="text" id="Username" name="Username" placeholder="Username" required>
       <!-- <label for="email">email:</label> -->
-      <input type="email" inputmode="email"  name="Email"  placeholder="Email" required>
+      <input type="email" inputmode="email" name="Email" placeholder="Email" required>
 
       <% if(typeof message !=='undefined' ){ %>
-      <div class="alert alert-danger" role="alert" style="color: red; font-size: small; margin-bottom: 15px;">
-        <%= message %>
-      </div>
-      <% } %>
-      <button type="submit">Send OTP</button>
+        <div class="alert alert-danger" role="alert" style="color: red; font-size: small; margin-bottom: 15px;">
+          <%= message %>
+        </div>
+        <% } %>
+          <button type="submit">Send OTP</button>
     </form>
+    <div class="Remember col-12   ">
+      <p class=" mb-0  d-flex justify-content-end" style="font-size: small; ">Remember Password?<a
+          href="/login" style="color: #1c8adb; font-weight: 600;">Login</a></p>
+    </div>
   </div>
 </body>
 <style>
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  </style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
+
 </html>
