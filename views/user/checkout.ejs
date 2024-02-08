@@ -358,17 +358,17 @@
 <%- include('../layouts/user/footer.ejs') %>
 
   <!-- Modal -->
-  <div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  <div class="modal fade " id="addAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content rounded shadow">
+        <div class="  bg-primary p-2 " style="background-color: #0056B3;" >
+          <h4 class="fw-bold  " style="color:#ffffff; font-weight: bold; margin-left: 12px;">Add Addresss</h4>
+        </div>
         <div class="modal-header">
-          <div class="modal-body ">
+          <div class="modal-body p-0 ">
             <form id="addckAddress" action="/modaldAdAddress/<%=user._id %>" method="post">
               <div class="row">
-                <div class="col-6 fw-bold ">
-                  <h4 class="fw-bold  mb-1" style="color: black; font-weight: bold;">Add Addresss</h4>
-                </div>
                 <div class="col-12" style="color: black;font-weight: bold;">
                   <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -409,7 +409,7 @@
                         </div>
                       </div>
 
-                      <div class="row mb-2">
+                      <div class="row ">
                         <div class="col-6">
                           <input type="number" class="form-control" placeholder="Pincode" id="Pincode"
                             name="Pincode" minlength="6" pattern="[0-9]{6}">
@@ -420,12 +420,16 @@
                         </div>
 
                       </div>
-                      <div class="alert alert-success" role="alert" id="alertDiv" style="display: none;">
-                      </div>
+                  
+                      <% if(typeof message!=="undefined" ){%>
+                        <h1 style="font-size:16px;color:rgb(156, 2, 2);">
+                          <%=message %>
+                        </h1>
+                        <%}%>
 
-                      <div class="row float-right">
+                      <div class="row float-right p-r-20">
 
-                        <button type="submit" style="margin-bottom:36px ;   font-weight: bold;"
+                        <button type="submit" style="margin: bottom 5px;   font-weight: bold;"
                           class="btn btn-outline-warning">Submit</button>
 
                       </div>
