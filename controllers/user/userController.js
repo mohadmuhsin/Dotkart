@@ -284,7 +284,7 @@ const category = async (req, res) => {
         let procount = Math.ceil(productcount / limit)
         const categorydata = await categoryData.find({ status: true })
         const branddata = await brandData.find({})
-        
+
         if (req.session.user) {
             const user = req.session.user
             const userdata = await userData.findOne({ _id: user._id })

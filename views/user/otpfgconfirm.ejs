@@ -1,13 +1,14 @@
 <%- include("../layouts/user/header.ejs") %>
   <div class="container">
     <div class="row justify-content-center align-items-center" style=" min-height: 100vh;">
-      <div class="col-md-6">
-        <div class="card bg-light rounded-1 shadow  bg-body-tertiary border border-0 p-3 ">
+      <div class="col-md-6 shadow">
+        <div class="card bg-light rounded-1 shadow   p-3 ">
           <div class="card-body">
-            <h4 class=" mb-3">Please enter your OTP <p
-                style="color: rgb(255, 153, 0); font-size: small;margin-top: 2px;">
-                we have already sent an otp to your email
-              </p>
+            <h4 class=" mb-2 " style="color: black; font-weight: bold ;">  Verification required <p
+                style="color: rgb(0, 0, 0); font-size: 13px; margin-top: 15px; font-weight: normal; font-family: sans-serif;">
+                To continue, complete this verification step. We've sent an OTP to the email. Please
+                enter it below to complete verification.
+              </p>  
             </h4>
 
             <form action="/verifyfgOTP" method="post">
@@ -20,10 +21,10 @@
                   <%= message %>
                 </div>
                 <% } %>
-                <div class="d-flex justify-content-end">
+                  <div class="d-flex justify-content-end">
 
-                  <button type="submit" class="btn btn-primary btn-success-hover  ">Submit</button>
-                </div>
+                    <button type="submit" class="btn btn-primary btn-success-hover  ">Submit</button>
+                  </div>
             </form>
           </div>
         </div>

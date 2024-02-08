@@ -59,32 +59,26 @@
 
 
               <div class="card mb-3 ">
-
-                <div class="card-body  rounded" style="background-color: azure;">
-
+                <div class="card-body  shadow rounded" style="background-color: azure;">
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
                   <form class="row g-3 needs-validation mb-0" novalidate method="post" action="">
-
                     <div class="col-12">
                       <!-- <label for="yourUsername" class="form-label">username</label> -->
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input type="text" placeholder="Username" name="username" class="form-control" id="yourUsername" required>
                         <div class="invalid-feedback">Please enter your Email.</div>
                       </div>
                     </div>
-
                     <div class="col-12 mb-1">
                       <!-- <label for="yourPassword" class="form-label">Password</label> -->
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" placeholder="Password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
-
                     </div>
-
 
                     <% if(typeof message!=="undefined" ){%>
                       <h1 style="font-size:16px;color:rgb(156, 2, 2);">
@@ -92,38 +86,76 @@
                       </h1>
                       <%}%>
 
-
-                        <div class="col-12">
-                          <button class="btn btn-primary w-100 fw-bold" type="submit">Login</button>
-                        </div>
-                        <div class="col-12  d-flex flex-column align-items-center">
-                          <p class=" mb-0 ">New to Dotkart?<a href="/signup">Create an account</a></p>
-                          <p class=" mb-0 " style=" font-size: 13px;"> <a href="/forgetPassword">Forget
-                              password</a></p>
-                        </div>
-                  </form>
-                  <div class=" shadow   p-2 px-3 rounded mt-2"
-                    style="max-height: 100px;background-color: rgb(255, 255, 255); ">
-                    <p style="font-size: medium; color: red;   " class="mb-1 fw-bold ">Demo user</p>
-                    <div class="d-flex ">
-                      <p class="mb-1 " style="margin-top: -7px; font-size:12px; font-weight: 600;">UN: <span
-                          style="cursor:pointer;" class="fw-normal" onclick="copyText(this)">Tester</span></p>
-                      <p class="mb-0 " style="margin-top: -7px; font-size:12px; font-weight: 600; margin-left:10px;">PW:
-                        <span style="cursor:pointer" class="fw-normal" onclick="copyText(this)">Test1@</span>
-                      </p>
+                      <div class="col-12">
+                        <button id="loginButton" class="btn btn-primary w-100 fw-bold" type="submit">
+                            <span id="buttonText">Login</span>
+                            <span id="loader" class="loader" style="display: none;"></span>
+                        </button>
                     </div>
+                    <style>
+                    .loader {
+                      border: 8px solid rgba(255, 32, 32, 0.1);
+                      border-left-color: #d31a1a;
+                      background-color: green;
+                      border-radius: 50%;
+                      width: 20px;
+                      height: 20px;
+                      animation: spin 1s linear infinite;
+                  }
+                  
+                  @keyframes spin {
+                      0% { transform: rotate(0deg); }
+                      100% { transform: rotate(360deg); }
+                  }
+                </style>
+
+<script>
+  document.getElementById('loginButton').addEventListener('click', function() {
+      // Hide the login button
+      document.getElementById('loginButton').style.display = 'none';
+
+      // Show the loader
+      document.getElementById('loader').style.display = 'inline-block';
+      
+      // You can perform any additional actions here, like form submission or AJAX requests
+      
+      // For demonstration purpose, let's simulate a delay with setTimeout
+      setTimeout(function() {
+          // Hide the loader after some delay (you can replace this with actual login logic)
+          document.getElementById('loader').style.display = 'none';
+
+          // Show the login button again
+          document.getElementById('loginButton').style.display = 'inline-block';
+      }, 2000); // Adjust the delay time as per your requirement
+  });
+</script>
+
+                      </form>
+                      <div class="d-flex justify-content-center mt-4 mb-3">
+                        <div class="col-8  shadow   p-2 px-2 rounded mt-2 "
+                        style="max-height: 100px;background-color: rgb(255, 255, 255); ">
+                        <p style="font-size: 14px; color: rgb(0, 0, 0);   " class="mb-1 fw-bold ">Demo user</p>
+                      <div class="d-flex justify-content-between " style="padding-right: 5px;">
+                        <p class="mb-1 " style="margin-top: -7px; font-size:12px; font-weight: 600;">Username: <span
+                            style="cursor:pointer;" class="fw-normal" onclick="copyText(this)">Tester</span></p>
+                        <p class="mb-0 " style="margin-top: -7px; font-size:12px; font-weight: 600; ">Password:
+                          <span style="cursor:pointer" class="fw-normal" onclick="copyText(this)">Test1@</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12   d-flex flex-column align-items-center  mb-2" style="margin-top: 10px; " >
+                    <p class=" fw-bold mb-0 " style="font-size: 12px;">New to Dotkart?<a class="link-underline-primary fw-normal" href="/signup" >Create an
+                        account</a></p>
+                    <p class=" mb-0 " style=" font-size:12px;"> <a href="/forgetPassword">Forget
+                        password</a></p>
                   </div>
                 </div>
               </div>
-
-
-
             </div>
           </div>
         </div>
-
       </section>
-
     </div>
   </main><!-- End #main -->
 
